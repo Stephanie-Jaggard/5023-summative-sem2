@@ -1,4 +1,4 @@
-#Load data----
+#Load scripts and data----
 source("scripts/data_loading2.R")
 
 #________________________________________________________________________-----
@@ -7,8 +7,8 @@ source("scripts/data_loading2.R")
 
 ##Testing temperature with wing length ----
 butterfly %>% 
-  ggplot(aes(x = forewing_length,
-             y = jun_mean))+
+  ggplot(aes(x = jun_mean,
+             y = forewing_length))+
   geom_point()+
   geom_smooth(method="lm",
               se=FALSE)
@@ -64,7 +64,7 @@ emmean_plot1 <- means1 %>%
        title = "Silver Spotted Skipper Butterfly",
        subtitle = "Effect of sex on forewing length (mm) of butterflies regardless of temperature")+
   theme_classic()
-
+emmean
 #S/S performance check----
 performance::check_model(lsmodel2)
 #IS normally distributed
@@ -77,8 +77,8 @@ broom::tidy(lsmodel3)
 
 ##T/S Plot----
 butterfly %>% 
-  ggplot(aes(x=forewing_length, 
-             y=jun_mean,
+  ggplot(aes(x=jun_mean, 
+             y=forewing_length,
              colour=sex))+
   geom_jitter(alpha=0.5,
               width=0.1)+
@@ -96,14 +96,14 @@ performance::check_model(lsmodel3)
 #Nice plot----
 
 temp_size_plot1 <- butterfly %>% 
-  ggplot(aes(x = forewing_length,
-             y = jun_mean))+
+  ggplot(aes(x = jun_mean,
+             y = forewing_length))+
   geom_point(colour = "black")+
   geom_smooth(method="lm",
               se=FALSE,
               colour = "darkgrey")+
-  labs(x = "Forewing Length (Millimeters)",
-       y = "Temperature (Celsius)",
+  labs(x = "Temperature (Celsius)",
+       y = "Forewing Length (Millimeters)",
        title = "Silver Spotted Skipper Butterfly",
        subtitle = "Forewing size and temperature to explore the effects of climate change on butterflies" )+
   facet_wrap(~ sex)+
