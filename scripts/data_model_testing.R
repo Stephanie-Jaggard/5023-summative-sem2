@@ -37,10 +37,15 @@ butterfly %>%
               width=0.1)+
   stat_summary(fun=mean,
                size=1.2)+
-  theme_bw()
+  theme_classic()
 #sex may have an effect on the data
 #_________________________________________________________----
 #S/S Confidence intervals----
+
+confint(lsmodel2)
+#2.5% = 14.04
+#97.5% = 14.43
+
 GGally::ggcoef_model(lsmodel2,
                      show_p_values=FALSE, 
                      conf.level=0.95)
@@ -60,11 +65,15 @@ emmean_plot1 <- means1 %>%
     ymin=lower.CL, 
     ymax=upper.CL))+
   labs(x = "Sex",
-       y = "Emmean",
-       title = "Silver Spotted Skipper Butterfly",
-       subtitle = "Effect of sex on forewing length (mm) of butterflies regardless of temperature")+
+       y = "Emmean")+
   theme_classic()
-emmean
+
+emmean_plot1
+
+lsmodel2 %>% 
+  broom::glance()
+#R squared = 0.638
+
 #S/S performance check----
 performance::check_model(lsmodel2)
 #IS normally distributed
