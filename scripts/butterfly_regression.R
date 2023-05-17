@@ -11,7 +11,7 @@ library(kableExtra)
 #Load scripts and data----
 
 source("scripts/data_loading2.R")
-source("scripts/data_visualisation.R")
+source("scripts/data_model_testing.R")
 
 #_____________________________________________________________________________----
 #Pearson's R ----
@@ -115,7 +115,7 @@ pred_table <- butterfly_ls1 %>%
   broom::augment(butterfly_ls1, newdata=tibble(jun_mean=c(11,12,13,14,15,16,17)), interval="confidence") %>%
   kbl(caption = "Table 1 - Predictions for the size of Silver Spotted Skipper butterfly forewings in new temperature environments. Indicates that for every 1°C, forewing length increases by 0.2 mm (Confidence intervals = 13.6 - 14.8)",
       col.names = c("Temperature (°C)", "Predicted forewing size (mm)", "Lower Confidence Interval","Upper Confidence Interval")) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left", latex_options = "HOLD_position")
 
 pred_table
 #11 deg = 13 mm   ~ 12.33323	13.60268
@@ -200,7 +200,7 @@ male_pred_table <- male_butterfly_ls1 %>%
   broom::augment(male_butterfly_ls1, newdata=tibble(jun_mean=c(11,12,13,14,15,16,17)), interval="confidence") %>%
   kbl(caption = "Table 2 - Predictions for the size of Male Silver Spotted Skipper butterfly forewings in new temperature environments. Indicates that for every 1°C, forewing length increases by 0.3 mm (Confidence intervals = 12.6 - 14.3)",
       col.names = c("Temperature (°C)", "Predicted forewing size (mm)", "Lower Confidence Interval","Upper Confidence Interval")) %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left", latex_options = "HOLD_position")
 
 male_pred_table
 #11 deg - 12.1 mm ~ 11.65659	12.59410

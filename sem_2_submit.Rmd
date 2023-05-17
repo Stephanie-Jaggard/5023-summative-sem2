@@ -1,0 +1,118 @@
+---
+title: "A once in a lifetime chance to change, the effect of increasing temperatures on the Silver Spotted Skipper butterfly wing size"
+author: "Stephanie Jaggard - 100351121"
+output: pdf_document
+date: "2023-05-17"
+header-includes:
+   - \usepackage[default]{sourcesanspro}
+   - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("scripts/data_loading2.R")
+source("scripts/data_model_testing.R")
+source("scripts/butterfly_regression.R")
+```
+
+## Introduction
+
+In this data analysis, univoltine butterfly species the Silver Spotted Skipper, latin name _Hesperia comma_, is being used to determine if climate change’s increased environmental temperatures are having a significant effect on the morphology of these butterflies.  
+
+The hypothesis is as follows: A butterfly’s forewing size (mm) will get larger with higher environmental temperatures (°C). Other factors are included in the analysis which may have an effect on morphology, for example male butterflies are more sensitive to the environmental changes than females (Fenberg et al, 2016) and rainfall. 
+
+Previous study has found a positive correlation between temperature and wing size for the majority of species studied (Na et al, 2021).  
+
+Univoltine insects are unique because they have a one year long life cycle, so a new generation appears every year (Beck, 1983), this benefits us as they can be studied from life to death in a short time-frame which disallows a higher chance of lifestyle factors to affect their morphology, is more efficient for research and allows study over the different morphological stages throughout their life cycle.   
+
+Temperatures were measured in June as the Silver Spotted Skipper is in larval form around May and June and emerges as a butterfly around July and August (UK Butterflies, 2023) this is so the temperature's effect on the wings can be investigated before the cocoon stage.  
+  
+## Analysis
+
+The reason why this analysis is being conducted is because of the concern around climate change, not only is it causing the butterfly habitat to change (Davies et al, 2006) but if it’s contributing to morphology like previous research suggests, this can affect function and could make a species more or less fit to survive in an environment which leads to an unbalanced ecosystem, which could further lead to having effects on humans and our food sources as butterflies are a pollinator.  
+
+For my analysis, I used a linear model to analyse the correlation for male and female butterflies of the relationship between forewing size (mm) as the response variable and the mean temperature during June (°C) as the predictor variable. I tested the confidence intervals and effect size of my data for my regression analysis to examine the strength and stability of the relationship between variables. I checked the assumptions for the data, noting the distribution type, homogeneity and outliers and the effect these have on my conclusion. 
+I repeated this for a dataset of all male butterflies to investigate the stronger relationship witnessed in figure 2. Finally, predicted values for size were created to investigate further effects of increasing and decreasing temperature effects of climate change.  
+
+R version 4.2.3 used alongside packages:
+
+
+* Tidyverse - Is designed for data science and includes ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr and forcats.  
+* here - Enables easy file referencing for projects.  
+* rstatix - Provides a pipe friendly framework for basic statistical tests.  
+* performance - Assesses model quality, providing R² values.   
+* patchwork - Combines several ggplots into one graphic.  
+* knitr - Allows literate programming.  
+* kableExtra - Allows the construction of complex and customisable tables.  
+* rmarkdown - Converts rmarkdown files into other formats, like pdf.  
+* Pandoc - Provides a set of tools to install, manage and run several 'Pandoc' versions.  
+  
+  (cran.r, no date)  
+
+## Results/Discussion
+
+### Hypothesis testing
+I hypothesised that a butterfly’s forewing size (mm) will get larger with higher environmental temperatures (°C). This is an important issue because of the concern around climate change, as it is causing the butterflies to change morphologically and behaviorally which could impact their populations, fitness for interspecies competition and their ecosystems.
+The data was checked and I chose groups of data to be compared to identify any factors that may be impacting forewing size that wasn’t temperature. By comparing the means of forewing size using the means, I found that the standard deviations were significant between the sexes of the butterflies, so I checked to see, and by using a linear model I found that male forewings are 1.26 mm smaller than females, when investigated further, I made a linear model that was specific to my question of temperature and wing size but also included sex as another factor and found that (at p < 0.001 and 97.5% confidence interval = 14.43) that I can reject the null hypothesis that sex has no effect on wing size.Therefore, I formulated another hypothesis in case they were skewing my data.
+
+
+```{r, echo=FALSE, out.width = "80%"}
+emmean_plot1
+```
+  
+  Figure 1 -  Effect of sex on forewing length (mm) of Silver Spotted Skipper butterflies regardless of temperature (°C). Female butterflies are larger than males. The points are from the emmean linear model of means for butterfly forewing size (Provides an R² = 0.64). (97.5% Confidence intervals = 14.43).
+  
+Back to the combined data, I found an R² value, using Pearson’s R, of the raw data to be 0.28 which shows a weak positive correlation. I made a linear model for my hypothesis using forewing size (mm) as the response variable and the mean temperature during June (°C) as the predictor variable and did a regression analysis to compare the two continuous variables.   
+  
+```{r, echo=FALSE, message=FALSE, out.width = "90%"}
+reg_temp_plot
+```
+  
+  Figure 2 - Forewing size (mm) and temperature (°C) to explore the effects of climate change on Silver Spotted Skipper butterflies. There is a weak positive correlation between forewing size and temperature in females and an average positive correlation for the males. The slope is from the linear model for sex, temperature and forewing size data (Combined data provides an R² = 0.077, males-only provides an R² = 0.388) and indicates that for every 1°C there is a forewing increase of around 0.2 mm (97.5% confidence interval = 0.4). lines are regression slopes with 95% confidence intervals, circles are individual data points, and data is separated by sex (Females and Males).  
+    
+This suggests that there is a relationship between forewing size and temperature, although a very weak one which the models are also weak for, and that even in studies with similar results to this analysis, some butterfly species don’t follow this pattern, for example in Na’s study, three species out of nine actually decreased with higher temperatures: _P. stubbendorfii, P. canidia_ and _P. rapae_  (Na et al, 2021).
+  
+### Male thermo-sensitivity 
+
+I also hypothesised that a male butterfly’s forewing size (mm) will get larger with higher environmental temperatures (°C) as they are more sensitive to changes by temperature than females are. This is a further concern as if only one sex of a species is sensitive to temperatures brought on by climate change, they could become less fit and become sparse which would mean less breeding pairs and lower populations of butterflies. If the morphological changes brought on are beneficial to the males then the females could fall behind and have less chance at intraspecies competition, therefore, competing for resources than the males, and if the changes are disadvantageous to the males, the same happens to them.  
+  
+To investigate if males are more sensitive to changes in temperature, I filtered out females from the dataset and created a new dataset which underwent a Pearson’s R test to find a new R² value of 0.62, a much more promising stronger correlation. I created a new linear model which included the filtered male-only data, temperature and forewing length data. The effect size for this data is R² value 0.388 which provides a medium effect size which is larger than the combined data and suggests that there is a higher chance of this relationship being significant. 
+
+## Conclusion
+
+In conclusion, we found that there is a tenuous relationship between forewing length and temperature. In investigation, I looked at some possible numbers for if climate change worsens or gets better and how that may predict the size of butterfly forewing sizes in those environments. I used the linear models for the combined data and male-only data used in the regression analyses.
+
+```{r, echo=FALSE, message=FALSE, out.width = "90%"}
+pred_table
+```
+  
+```{r, echo=FALSE, message=FALSE, out.width = "90%"}
+male_pred_table
+```
+  
+    
+This shows that there is a difference between the males and the combined dataset, where, as we saw in analyses, males seem to be more sensitive to temperature change, but also shows the further impact on morphology that climate change could have on these butterflies.   
+
+I think further investigation into how climate change is affecting butterflies is needed to know if they are at risk from ranging temperatures. Another factor that butterflies have that reacts to temperature is their colour. Research done on _Aglais urticae_ butterflies shows that with cooler temperatures, the colours are darker and with higher temperatures they turn lighter (Markl et al, 2022). I believe that it would be interesting to see if univoltine species react similarly, especially _Hesperia comma_.
+  
+The models used weren’t very promising, the distributions for the combined data showed a bimodal distribution which demonstrates the female and male divide and also showed a normal distribution for the male-only data too, but the homogeneity showed an unstable variance and the residuals are not linear in the slightest. Outliers are present but it’s difficult to determine if they are outliers or just a result of the weak correlation. All of this means that I am declaring that my analyses aren’t reliable and there is the chance of rejecting the null hypotheses falsely.
+
+### References   
+Beck. (1983). Insect Thermoperiodism. _Ann Rev Entomol_. 28. 91-108  
+  
+Cran.r. (no date). (several entries) _Tidyverse, here, rstatix, performance, patchwork, knitr_ and _kableExtra_. Available at: https://cran.r-project.org/web/packages/https://cran.r-project.org/web/packages/ [Accessed 17 May 2023]  
+
+Davies ZG, Wilson RJ, Coles S, Thomas CD. (2006). Changing habitat associations of a thermally constrained species, the silver-spotted skipper butterfly, in response to climate warming. _Journal of Animal Ecology_. 75 (1). 247-256  
+  
+Fenberg PB, Self A, Stewart JR, Wilson RJ, Brooks SJ. (2016). Exploring the universal ecological responses to climate change in a univoltine butterfly. _Journal of Animal Ecology_. 85 (3). 739-748  
+  
+Markl G, Ottmann S, Haasis T, Budach D, Krais S, Köhler HR. (2022). Thermo Biological effects of temperature-induced colour variations in _Aglais urticae _ (Lepidoptera, Nymphalidae). _Ecology and Evolution_. 12 (6)  
+
+Na S, Eunyoung L, Hyunjung K, Seiwoong C,  Hoonbok Y. (2021). The relationship of mean temperature and 9 collected butterfly species’ wingspan as the response of global warming. _Journal of Ecology and Environment_. 45 (1)  
+  
+RStudio Team (2020). RStudio: Integrated Development for R. RStudio, PBC, Boston, MA URL http://www.rstudio.com/   
+  
+UK Butterflies. (2023). _Silver Spotted Skipper_ _Hesperia comma_. Available at: https://www.ukbutterflies.co.uk/species.php?species=comma [Accessed 10 May 2023]
+  
+
